@@ -117,6 +117,8 @@ internal class Program
         {
             Console.WriteLine(address.userAddress[i]);
         }
+
+        Console.ReadKey();
     }
 }
 
