@@ -91,7 +91,7 @@ internal class Program
 
         if (userPercentage <= 0 || userPercentage > 100)
         {
-            Console.WriteLine("Make sure the percentage is between 1-100");
+            Console.WriteLine("Make sure the percentage is between 1-100!");
         } else
         {
             Console.WriteLine($"%{userPercentage} Thank you");
