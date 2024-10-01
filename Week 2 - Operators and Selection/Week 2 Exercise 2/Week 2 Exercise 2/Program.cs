@@ -131,7 +131,7 @@ internal class Program
         Console.Write("Your guess: ");
         int userGuess = Convert.ToInt32(Console.ReadLine());
 
-        // check if the user's input matches one of the array values, TBC
+        // check if the user's input matches one of the array values, TBC:
 
 
         Console.ReadKey();
