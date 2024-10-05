@@ -97,6 +97,10 @@ internal class Program
             Console.WriteLine($"%{userPercentage} Thank you");
         }
 
+        Console.Write();
+
+
+
         Console.ReadKey();
     }
 }

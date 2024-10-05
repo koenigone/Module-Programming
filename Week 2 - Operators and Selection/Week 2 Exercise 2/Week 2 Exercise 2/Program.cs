@@ -131,10 +131,116 @@ internal class Program
         Console.Write("Your guess: ");
         int userGuess = Convert.ToInt32(Console.ReadLine());
 
-        // check if the user's input matches one of the array values, TBC:
+        Console.WriteLine();
+        Console.WriteLine($"Your guess: {userGuess}");
 
+        Console.WriteLine("The numbers are: ");
+        for (int i = 0; i < lotteryRandomNums.Length; i++)
+        {
+            Console.WriteLine(lotteryRandomNums[i]);
+        }
+
+        // check if the user's input matches one of the array values
+        if (lotteryRandomNums.Contains(userGuess)) {
+            Console.WriteLine("WINNER!");
+        }
+        else
+        {
+            Console.WriteLine("THE GAME IS RIGGED");
+        }
+
+        Console.WriteLine();
+
+        // Ask the user to input a year and output chinese zodiac
+        ZodiacYear zodiac = new ZodiacYear();
+        Console.WriteLine("Enter a year and know more about it's chinese zodiac information");
+        Console.Write("Year: ");
+        zodiac.year = int.Parse(Console.ReadLine());
+
+        int zodiacIndex = zodiac.year % 12;
+        int zodiacElementIndex = (zodiac.year / 2) % 5;
+
+        string[] zodiacAnimals = { // animals array
+            "Monkey", "Rooster", "Dog", "Pig", "Rat", "Ox",
+            "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat"
+        };
+
+        string[] zodiacElements = { // elements array
+            "Wood", "Fire", "Metal", "Earch", "Water"
+        };
+
+        zodiac.animal = zodiacAnimals[zodiacIndex];
+        zodiac.yangYin = zodiac.year % 2;
+        zodiac.yearElement = zodiacElements[zodiacElementIndex];
+
+        string yangYinResault = zodiac.yangYin == 0 ? "even" : "odd";
+
+        Console.WriteLine($"Year {zodiac.year} is the year of the {zodiac.animal}, it is an {yangYinResault}" +
+                          $" year and the element is {zodiac.yearElement}");
+
+        Console.WriteLine();
+
+        // Ask for user for an amount of apples and display the resault
+        Console.WriteLine("How many apples would you like to order?");
+
+        Console.Write("Amount: "); // ask for amount of apples
+        int userApples = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine();
+
+        Console.Write("For how many people?: "); // ask for amount of people
+        int userApplesConsumers = Convert.ToInt32(Console.ReadLine());
+
+        if (userApples <= 0 || userApplesConsumers <= 0)
+        {
+            Console.WriteLine("Amount can not be 0 or a negative number");
+            return;
+        }
+
+        string applesAmmountString = userApples == 1 ? "Apple" : "Apples";
+        OrderAppleMessage(userApples, applesAmmountString, userApplesConsumers);
+
+        Console.WriteLine();
+
+        // Ask user for a planet
+        Console.WriteLine("What is your favorite planet?");
+        string userPlanet = Console.ReadLine();
+
+        // Dictionary for planets and their distances from the Sun in meters
+        var planetsDistances = new Dictionary<string, double>
+        {
+            {"Mercury", 57900000},
+            {"Venus", 108200000},
+            {"Earth", 149600000},
+            {"Mars", 227900000},
+            {"Jupiter", 778600000},
+            {"Saturn", 1433500000},
+            {"Uranus", 2872500000},
+            {"Neptune", 4495100000}
+        };
+
+        const double speedOfLight = 299792458; // Speed of light in meters/second
+
+        // Retrieve the distance for the user's selected planet
+        if (planetsDistances.TryGetValue(userPlanet, out double distance))
+        {
+            double timeInSeconds = distance / speedOfLight;
+            double timeInMinutes = timeInSeconds / 60;
+
+            Console.WriteLine($"It takes light approximately {timeInMinutes:F2} minutes to reach {userPlanet} from the Sun.");
+        }
+        else
+        {
+            Console.WriteLine("Planet not found. Please enter a valid planet name.");
+        }
 
         Console.ReadKey();
+    }
+
+    // ordering message function
+    public static void OrderAppleMessage(int apples, string word, int people)
+    {
+        Console.WriteLine($"Ok, ordering {apples} {word} for {people} people!");
     }
 }
 
@@ -143,6 +249,7 @@ class LoginDetails
     public string username;
     public string password;
 }
+
 class Lottery
 {
     public int num1;
@@ -151,4 +258,12 @@ class Lottery
     public int num4;
     public int num5;
     public int num6;
+}
+
+class ZodiacYear
+{
+    public int year;
+    public string animal;
+    public int yangYin;
+    public string yearElement;
 }
