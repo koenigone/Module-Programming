@@ -125,6 +125,98 @@
             }
             return userGuess;
         }
+
+        AddSpaceBetweenTasks(); // space
+
+        // Ask a user for a string and give the stats of the string
+        Console.Write("Enter a word of type (string): ");
+        string userSWord = Console.ReadLine();
+
+        OutputStringStats(userSWord);
+
+        void OutputStringStats(string word) {
+            Console.WriteLine($"'{word}' has:");
+            Console.WriteLine($"Length: {word.Length}");    // string length
+
+            int upperCase = 0;
+            int lowerCase = 0;
+            int whiteSpace = 0;
+            int number = 0;
+            int symbol = 0;
+            foreach (char a in word)                        // count uppercase letters
+            {
+                if (char.IsUpper(a))
+                {
+                    upperCase++;
+                }
+                else if (char.IsLower(a))
+                {
+                    lowerCase++;
+                }
+                else if (char.IsNumber(a))
+                {
+                    number++;
+                }
+                else if (char.IsSymbol(a) || a == '!')
+                {
+                    symbol++;
+                }
+                else if (char.IsWhiteSpace(a))
+                {
+                    whiteSpace++;
+                }
+            }
+            string whiteSpaceLogic = whiteSpace == 0 ? "does not contain whitespaces" : $"{whiteSpace} White spaces";
+            Console.WriteLine($"{upperCase} Uppercase");    // string uppercases
+            Console.WriteLine($"{lowerCase} Lowercase");    // string lowercases
+            Console.WriteLine($"{number} Numbers");         // string numbers
+            Console.WriteLine($"{symbol} Symbols");         // string symbols
+            Console.WriteLine(whiteSpaceLogic);             // string whitespaces
+
+        }
+
+        AddSpaceBetweenTasks(); // space
+
+        // similar to previous function, but now display data as objects
+        StringStats stats = GetStringStats("!lol a WorD");
+        Console.WriteLine($"{stats.upperCases} upper");
+        Console.WriteLine($"{stats.lowerCases} lower");
+        Console.WriteLine($"{stats.number} number");
+        Console.WriteLine($"{stats.symbol} symbol");
+        Console.WriteLine($"{stats.whiteSpaces} whitespace");
+
+        StringStats GetStringStats(string word)
+        {
+            StringStats stringStat = new StringStats();
+
+            stringStat.length = word.Length;
+
+            foreach (char a in word)                        // count uppercase letters
+            {
+                if (char.IsUpper(a))
+                {
+                    stringStat.upperCases++;
+                }
+                else if (char.IsLower(a))
+                {
+                    stringStat.lowerCases++;
+                }
+                else if (char.IsNumber(a))
+                {
+                    stringStat.number++;
+                }
+                else if (char.IsSymbol(a) || a == '!')
+                {
+                    stringStat.symbol++;
+                }
+                else if (char.IsWhiteSpace(a))
+                {
+                    stringStat.whiteSpaces++;
+                }
+            }
+            return stringStat;
+        }
+
     }
 
     static void AddSpaceBetweenTasks()
@@ -132,4 +224,14 @@
         Console.WriteLine();
         Console.WriteLine();
     }
+}
+
+class StringStats
+{
+    public int length;
+    public int upperCases;
+    public int lowerCases;
+    public int number;
+    public int symbol;
+    public int whiteSpaces;
 }
