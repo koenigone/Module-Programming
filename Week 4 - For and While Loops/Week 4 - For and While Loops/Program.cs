@@ -333,7 +333,7 @@
         return uCountry;
     }
 
-    // Task 6: Function -------------------------------------
+    // Task 8: Function -------------------------------------
     static int SimulateElevator(string floor)
     {
         int currentFloor = 0;
@@ -358,7 +358,7 @@
         return currentFloor;
     }
 
-    // Task 7: Function -------------------------------------
+    // Task 9: Function -------------------------------------
     static void Run(string command)
     {
         int storedNum = 0;
