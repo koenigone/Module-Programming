@@ -117,7 +117,10 @@
          * Task 6:
          * similar to previous function, but now display data as objects
          */
-        StringStats stats = GetStringStats("!lol a WorD");
+        Console.Write("Enter a word of type string to display it's data as objects: ");
+        string userStringObj = Console.ReadLine();
+        StringStats stats = GetStringStats(userStringObj);
+        Console.WriteLine($"Word: {userStringObj}");
         Console.WriteLine($"{stats.upperCases} upper");
         Console.WriteLine($"{stats.lowerCases} lower");
         Console.WriteLine($"{stats.number} number");
@@ -138,6 +141,33 @@
 
         Console.WriteLine($"Name: {userName} birth country: {userBirthCountry}");
 
+        AddSpaceBetweenTasks(); // space
+
+        /* Week 4 Home Work Essential Tasks
+         * Task 8:
+         * Ask the user to enter a string ("u" = +1, "d" = -1)
+         * then display the resault
+         */
+        Console.Write("Enter floor as string (u, d): ");
+        string userFloor = Console.ReadLine();
+
+        int floor = SimulateElevator(userFloor);
+        Console.WriteLine($"Elevator ended on floor: {floor}");
+
+        AddSpaceBetweenTasks(); // space
+
+        /* Week 4 Home Work Essential Tasks
+         * Task 9:
+         * Simple programming language that accepts commands (i, d, o, s)
+         */
+        Run("o");
+        Run("io");
+        Run("do");
+        Run("ioio");
+        Run("iiioso");
+        Run("iiosososo");
+        Run("diissisdo");
+        Run("iissisdddddddddddddddddddddddddddddddddo");
     }
 
     // Task 1: Function -------------------------------------
@@ -182,12 +212,12 @@
     // asks the user to type numbers on repeat if the guess wasn't in the specified range
     static int GuessTheNumber(int min, int max)
     {
-        Console.Write("Enter a number between 1-10: ");
+        Console.Write($"Enter a number between {min}-{max}: ");
         int userGuess = Convert.ToInt32(Console.ReadLine());
 
         while (userGuess < min || userGuess > max)
         {
-            Console.Write("Enter a number between 1-10: ");
+            Console.Write($"Wrong, the number should be in the range you specified {min}-{max}: ");
             userGuess = Convert.ToInt32(Console.ReadLine());
         }
         return userGuess;
@@ -204,25 +234,25 @@
         int whiteSpace = 0;
         int number = 0;
         int symbol = 0;
-        foreach (char a in word)                        // count uppercase letters
+        foreach (char a in word)
         {
-            if (char.IsUpper(a))
+            if (char.IsUpper(a))                        // count uppercase letters
             {
                 upperCase++;
             }
-            else if (char.IsLower(a))
+            else if (char.IsLower(a))                   // count lowercase letters
             {
                 lowerCase++;
             }
-            else if (char.IsNumber(a))
+            else if (char.IsNumber(a))                  // count numbers
             {
                 number++;
             }
-            else if (char.IsSymbol(a) || a == '!')
+            else if (char.IsSymbol(a) || char.IsPunctuation(a))   // count symbols
             {
                 symbol++;
             }
-            else if (char.IsWhiteSpace(a))
+            else if (char.IsWhiteSpace(a))              // count whitespaces
             {
                 whiteSpace++;
             }
@@ -240,28 +270,27 @@
     static StringStats GetStringStats(string word)
     {
         StringStats stringStat = new StringStats();
-
         stringStat.length = word.Length;
 
-        foreach (char a in word)                        // count uppercase letters
+        foreach (char a in word)
         {
-            if (char.IsUpper(a))
+            if (char.IsUpper(a))                     // count uppercase letters
             {
                 stringStat.upperCases++;
             }
-            else if (char.IsLower(a))
+            else if (char.IsLower(a))               // count lowercase letters
             {
                 stringStat.lowerCases++;
             }
-            else if (char.IsNumber(a))
+            else if (char.IsNumber(a))              // count numbers
             {
                 stringStat.number++;
             }
-            else if (char.IsSymbol(a) || a == '!')
+            else if (char.IsSymbol(a) || a == '!')  // count symbols
             {
                 stringStat.symbol++;
             }
-            else if (char.IsWhiteSpace(a))
+            else if (char.IsWhiteSpace(a))          // count whitespaces
             {
                 stringStat.whiteSpaces++;
             }
@@ -272,33 +301,92 @@
     // Task 7: Function -------------------------------------
     static string GetBirthCountry()
     {
-        string uCountry = Console.ReadLine();
-        int numCounter = 0;
+        // initial stats
+        string uCountry;
+        bool isValid;
 
-        foreach (char c in uCountry)
+        do // keep asking while isVlid is false
         {
-            if (char.IsNumber(c) || char.IsSymbol(c))
-            {
-                numCounter++;
-            }
-        }
-
-        if (numCounter > 0)
-        {
-            Console.WriteLine($"Country name must be at least 4 characters long");
-            Console.Write("Birth country: ");
             uCountry = Console.ReadLine();
-        }
-        else
-        {
-            while(uCountry.Length < 4)
+            isValid = true;
+
+            if (uCountry.Length < 4)        // country name length validation
             {
-                Console.WriteLine($"Country name must be at least 4 characters long");
+                Console.WriteLine("Country name must be at least 4 characters long");
                 Console.Write("Birth country: ");
-                uCountry = Console.ReadLine();
+                isValid = false;
+                continue;
+            }
+
+            foreach (char c in uCountry)    // country name validation
+            {
+                if (char.IsNumber(c) || char.IsSymbol(c) || char.IsPunctuation(c))
+                {
+                    Console.WriteLine("Country name must not contain numbers or symbols");
+                    Console.Write("Birth country: ");
+                    isValid = false;
+                    break;
+                }
+            }
+        } while (!isValid);
+
+        return uCountry;
+    }
+
+    // Task 6: Function -------------------------------------
+    static int SimulateElevator(string floor)
+    {
+        int currentFloor = 0;
+
+        foreach (char c in floor)
+        {
+            if (c == 'u')           // increase floor by 1 when encounter 'u'
+            {
+                currentFloor++;
+            }
+            else if (c == 'd')
+            {
+                currentFloor--;     // decrease floor by 1 when encounter 'd'
             }
         }
-        return uCountry;
+
+        if (currentFloor < 0)
+        {
+            Console.WriteLine("Elevator can not go under floor 0!");
+            currentFloor = 0;
+        }
+        return currentFloor;
+    }
+
+    // Task 7: Function -------------------------------------
+    static void Run(string command)
+    {
+        int storedNum = 0;
+        foreach (char c in command)
+        {
+            if (c == 'i')
+            {
+                storedNum++;                    // 'i' increases stored number by 1
+            }
+            else if (c == 'd')                  // 'd' decreases stored number by 1
+            {
+                storedNum--;
+            }
+            else if (c == 's')                  // 's' outputs the square of the stored number
+            {
+                storedNum *= storedNum;
+            }
+            else if (c == 'o')                  // 'o' outputs the stored number
+            {
+                Console.WriteLine(storedNum);
+            }
+
+            // reset the stored number to 0
+            if (storedNum < 0 || storedNum > 255)
+            {
+                storedNum = 0;
+            }
+        }
     }
 }
 
